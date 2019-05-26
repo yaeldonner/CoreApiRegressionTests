@@ -1,0 +1,4471 @@
+{
+	"info": {
+		"_postman_id": "576eb11e-0593-4210-8740-f044f9af10aa",
+		"name": "CoreApiSelina",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SetUp",
+			"item": [
+				{
+					"name": "Environment Setup",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0dfe5a19-af18-40dd-8c5f-01946ab7525c",
+								"exec": [
+									"pm.environment.set(\"baseUrl\", \"https://apiqa.selina.com\");",
+									"pm.environment.set(\"winksUrl\", \"http://sparring.winks.com.ar\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://postman-echo.com/get",
+							"protocol": "https",
+							"host": [
+								"postman-echo",
+								"com"
+							],
+							"path": [
+								"get"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication Flow",
+			"item": [
+				{
+					"name": "1.Basic authentication flow",
+					"item": [
+						{
+							"name": "Send regitration request",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "10fa39ab-08c1-40e1-b351-75a15fec3b37",
+										"exec": [
+											"function makeEmail() {\r",
+											"    var strValues = \"abcdefg12345\";\r",
+											"    var strEmail = \"\";\r",
+											"    var strTmp;\r",
+											"    for (var i = 0; i < 10; i++) {\r",
+											"        strTmp = strValues.charAt(Math.round(strValues.length * Math.random()));\r",
+											"        strEmail = strEmail + strTmp;\r",
+											"    }\r",
+											"    strTmp = \"\";\r",
+											"    strEmail = strEmail + \"@\";\r",
+											"    for (var j = 0; j < 8; j++) {\r",
+											"        strTmp = strValues.charAt(Math.round(strValues.length * Math.random()));\r",
+											"        strEmail = strEmail + strTmp;\r",
+											"    }\r",
+											"    strEmail = strEmail + \".com\"\r",
+											"    return strEmail;\r",
+											"}\r",
+											"\r",
+											"\r",
+											"pm.environment.set(\"email\", makeEmail());\r",
+											"pm.environment.set(\"password\",\"12341234\");\r",
+											"pm.environment.set(\"first_name\",\"yaeli\");\r",
+											"\r",
+											"console.log(\"generated email is: \"+pm.environment.get(\"email\"));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "cef8a5b8-7075-4ae7-b3bb-f3abf3f9acaa",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response have body\", function()",
+											"{",
+											"    pm.response.to.have.jsonBody();",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fields\":\r\n{\r\n\"email\": \"{{email}}\",\r\n\"password\": \"{{password}}\",\r\n\"first_name\": \"{{first_name}}\"\r\n},\r\n\"files\": {}\r\n}\r\n\r\n"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/registration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"registration"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Send regitration request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\"fields\":\r\n{\r\n\"email\": \"{{email}}\",\r\n\"password\": \"{{password}}\",\r\n\"first_name\": \"{{first_name}}\"\r\n},\r\n\"files\": {}\r\n}\r\n\r\n"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/registration",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"registration"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 01 May 2019 12:51:07 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "613"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding, Origin"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+										},
+										{
+											"key": "Server",
+											"value": "cloudflare"
+										},
+										{
+											"key": "CF-RAY",
+											"value": "4d01e28f1d8ece6b-LHR"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"user\": {\n        \"id\": 12861,\n        \"first_name\": \"yaeli\",\n        \"last_name\": \"\",\n        \"full_name\": \"yaeli \",\n        \"email\": \"b3eebbe45f@bb3cggb4.com\",\n        \"mobile\": null,\n        \"onboarding_complete_flag\": false,\n        \"gender\": null,\n        \"avatar\": null,\n        \"rewards_points\": 0,\n        \"address\": null,\n        \"member_id\": 12861,\n        \"date_of_birth_timestamp_in_seconds\": null,\n        \"is_facebook_connected\": false,\n        \"country\": null,\n        \"type\": \"regular\"\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxMjg2MSwiZmlyc3ROYW1lIjoieWFlbGkiLCJsYXN0TmFtZSI6IiIsImVtYWlsIjoiYjNlZWJiZTQ1ZkBiYjNjZ2diNC5jb20iLCJnZW5kZXIiOm51bGwsImJpcnRoZGF0ZSI6bnVsbCwibW9iaWxlIjpudWxsLCJhZGRyZXNzIjpudWxsLCJpc19mYWNlYm9va19jb25uZWN0ZWQiOmZhbHNlLCJmYWNlYm9va19pZCI6bnVsbCwiZmFjZWJvb2tfZW1haWwiOm51bGwsImNvdW50cnkiOm51bGwsInR5cGUiOiJyZWd1bGFyIiwiY3JlYXRlZEF0Ijp7ImxvdyI6MTkzNjkwNjY0OCwiaGlnaCI6MzYyfX0sImV4cCI6MTU1NjcxODY2NywiaWF0IjoxNTU2NzE1MDY3fQ.0CCtkjT5LI9qABOnb0W6E2piA6OHDU9Mghuo1s4IQRc\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Send login request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8468ba70-32fe-4ce2-86c9-f788fbc5a62a",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"email response equal to expected email\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.user.email).to.eql(pm.environment.get(\"email\"));",
+											"});",
+											"",
+											"pm.environment.set(\"token\", pm.response.json().token);",
+											"",
+											"var isTokenSet = pm.variables.get(\"token\");",
+											"function isSet()",
+											"{",
+											"    if(isTokenSet!==null){ return true;}",
+											"    ",
+											"};",
+											"pm.test(\"Token is defined\", isSet===true);",
+											"",
+											"var userId = pm.response.json().user.id;",
+											"pm.environment.set(\"userId\", userId);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Forgot password request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b92d8a1f-87ad-47a3-a316-4f349c15818f",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{email}}\"\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/forget-password/request",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"forget-password",
+										"request"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8c66c2d3-7526-415e-8ee3-9034b267a1c3",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "635b7617-018c-49c0-93e5-580c2ca56020",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "2.Authentication flow with invalid mail",
+					"item": [
+						{
+							"name": "send registration request with invalid email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "13fee27a-6886-446a-97bc-de65f74787b2",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Invalid email error is presented\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.email[0]).to.eql(\"A valid email address is required.\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "04b06747-7ef3-4320-a2b8-946116718819",
+										"exec": [
+											"var invaildMailList = [];",
+											"invaildMailList = [\"plainaddress\", \"@domain.com\",\"email.domain.com\", \"email@domain@domain.com\",\".email@domain.com\",\"email.@domain.com\"];",
+											"var randomIndex =  Math.floor((Math.random() * invaildMailList.length));",
+											"",
+											"pm.environment.set(\"invalidEmail\",invaildMailList[randomIndex]);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fields\": \r\n{\r\n\t\"email\": \"{{invalidEmail}\", \r\n\t\"password\": \"{{password}}\", \r\n\t\"first_name\": \"{{first_name}}\"\r\n},\r\n\"files\": {}\r\n}\r\n\r\n"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/registration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"registration"
+									]
+								},
+								"description": "we will set an invail email as an environment parameter"
+							},
+							"response": []
+						},
+						{
+							"name": "send login request with invaild email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "892a74c5-b239-42e9-bd9d-0cc7f7a47236",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Invalid email message present\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.email[0]).to.eql(\"A valid email address is required.\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{invalidEmail}}\",\r\n  \"password\": \"{{password}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2ef48e04-c336-4ada-8b4e-1814ac8f5b50",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "44f151f3-9bef-491d-a112-742afad4c8e8",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "3.Authentication flow without password",
+					"item": [
+						{
+							"name": "send registration request without password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "39cf5583-80da-4c31-a11d-6516f5f2c1ff",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"    ",
+											"});pm.test(\"Password required message is presented\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.password[0]).to.eql(\"This field is required.\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fields\":\r\n{\r\n\"email\": \"{{email}}\",\r\n\"password\": \"\",\r\n\"first_name\": \"{{first_name}}\"\r\n},\r\n\"files\": {}\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/registration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"registration"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5c7e710a-6e05-4885-8713-ba14ebefdcbc",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "00b0061d-ee22-42f2-87cf-4f4936f0a39f",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "4.Authentication flow with existing user",
+					"item": [
+						{
+							"name": "send registration request with exist email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fa397435-3eba-4708-9723-3f38b0fdea85",
+										"exec": [
+											"",
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"pm.test(\"Exist email message is presented\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.email[0]).to.eql(\"A user is already registered with this e-mail address.\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fields\":\r\n{\r\n\"email\": \"{{email}}\",\r\n\"password\": \"{{password}}\",\r\n\"first_name\": \"{{first_name}}\"\r\n},\r\n\"files\": {}\r\n}\r\n\r\n"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/registration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"registration"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "5.Authenticaion with exist email and wrong password",
+					"item": [
+						{
+							"name": "send login request with wrong password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "16040ea7-6a32-406f-802f-0fac2fc705ba",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"wrong credentials message is presented\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.non_field_errors[0]).to.eql(\"Unable to log in with provided credentials.\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"1234\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "6.Demi registration requests",
+					"item": [
+						{
+							"name": "demi registration correct details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4890b2a7-0126-4062-adb9-e63ebf16a2d5",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"token received\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.token).not.equal(null);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n \"first_name\": \"Test\",\n \"last_name\": \"Tests\",\n \"email\": \"tests@gmail.com\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/demi-registration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"demi-registration"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "demi registration invalid mail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fec990ec-02a7-4c76-a5bc-f8111e36ad8c",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"invalid mail message is shown\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.email[0]).to.eql(\"A valid email address is required.\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n \"first_name\": \"Test\",\n \"last_name\": \"Tests\",\n \"email\": \"gmail.com\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/demi-registration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"demi-registration"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "demi registration null first name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fec990ec-02a7-4c76-a5bc-f8111e36ad8c",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"mandatory field message is shown\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.first_name[0]).to.eql(\"This field is required.\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n \"first_name\": \"\",\n \"last_name\": \"Tests\",\n \"email\": \"test@gmail.com\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/demi-registration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"demi-registration"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9cd30e65-d62b-48c0-be53-2803a69b0a98",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "c58c065e-3032-4bbc-bb29-6211040ecf4a",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "Available rooms",
+			"item": [
+				{
+					"name": "1.Check availabilty for specific valid dates",
+					"item": [
+						{
+							"name": "Get all available locations ",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "48cc71ca-4db5-4604-b661-f5f187e5ebf5",
+										"exec": [
+											"//check that status code is 200",
+											"pm.test(\"Status code is 200\", function() {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"//this fucntion searching for the location id of specific location- RED FROG and setting it to the environment vars.  ",
+											"function getSelectedLocationId()",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    jsonData.forEach(function(location)",
+											"    {",
+											"        if(location.name===\"RED FROG\")",
+											"        {",
+											"            console.log(\"Location id of RED FROG: \" + location.id);",
+											"            pm.environment.set(\"locationId\", location.id);",
+											"            console.log(\"Location id has been saved to environment variables\");",
+											"        }",
+											"        ",
+											"    })",
+											"}",
+											"",
+											"getSelectedLocationId();",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/listings",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"listings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all availabilty rooms per location and dates",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6fe25963-e17f-4be3-bcab-e6207d5225a4",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "17af7732-ff2e-4121-a0f0-817a367c5a22",
+										"exec": [
+											"",
+											"//check status code is 200",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"// create an array with all the booking ids.",
+											"function getAllRatesFromResponse()",
+											"{",
+											"    var allRates = [];",
+											"    var jsonData = pm.response.json();",
+											"    jsonData.forEach(function(data) //running over all the items in json",
+											"    {",
+											"        var allRatesFromJson = Array.from(data.all_rates);",
+											"        allRatesFromJson.forEach(function (item) //collect all the rates plan from specific item",
+											"        {",
+											"            function Rate(id,avgPrice,ratePlan, promotionId)",
+											"            {",
+											"                this.id = id;",
+											"                this.avgPrice = avgPrice; ",
+											"                this.ratePlan =  ratePlan;",
+											"                this.promotionId = promotionId;",
+											"            }",
+											"            ",
+											"            var rate = new Rate(item.id, parseInt(item.averagePrice), item.ratePlan.id, item.promotion.id);",
+											"            allRates.push(rate);",
+											"        });",
+											"    ",
+											"    });",
+											"        return allRates;",
+											"};",
+											"",
+											"",
+											"var allRates = [];",
+											"allRates = getAllRatesFromResponse();",
+											"",
+											"pm.environment.set(\"RateArrayFromSelina\", JSON.stringify(allRates));",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{checkIn}}&check_out_date={{checkOut}}&bad=web",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{checkIn}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{checkOut}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get availability from winks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "49a6932d-4c98-4930-bcdd-0596494ff110",
+										"exec": [
+											"//check status code is 200",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											" ",
+											"function getAllRatesFromResponse()",
+											"{ ",
+											"    var jsonData = pm.response.json();",
+											"    var jsonDataPrices = JSON.parse(JSON.stringify(jsonData.prices));",
+											"    var itemAmount =  Object.keys(jsonDataPrices).length;",
+											"    var allRates = [];",
+											"    ",
+											"    Object.entries(jsonDataPrices).forEach(function (entry)",
+											"    {",
+											"        var roomCategoryId = entry[0];",
+											"       ",
+											"    //    if(roomCategoryId!=7072&&roomCategoryId!=7075&&roomCategoryId!=8265&&roomCategoryId!=8266&&roomCategoryId!=7074) //ignore all single rooms rates for now until we find better sulution",
+											"    ",
+											"        entry[1].forEach(function (item)",
+											"        {",
+											"            ",
+											"             function Rate(id,avgPrice,ratePlan,promotionId)",
+											"            {",
+											"                this.id = id;",
+											"                this.avgPrice = avgPrice; ",
+											"                this.ratePlan =  ratePlan;",
+											"                this.promotionId= promotionId;",
+											"            }",
+											"            ",
+											"         var rate = new Rate(item.rate, parseInt(item.avg), item.rate_plan_id, item.promotion_id);",
+											"         allRates.push(rate);",
+											"        });",
+											"    ",
+											"    });",
+											"    ",
+											"    return allRates;",
+											"};",
+											"",
+											"var allRates = [];",
+											"allRates = getAllRatesFromResponse();",
+											"",
+											"pm.environment.set(\"RateArrayFromWinks\", JSON.stringify(allRates));  //set rate array from winks  ",
+											"console.log(pm.environment.get(\"RateArrayFromWinks\"));",
+											"",
+											"var RateArrayFromSelina = pm.environment.get(\"RateArrayFromSelina\"); ",
+											"var RateArrayFromWinks = pm.environment.get(\"RateArrayFromWinks\"); ",
+											"",
+											"pm.test(\"Rates Array from Selina match rates array from Winks\", function () {",
+											"    pm.expect(RateArrayFromWinks).to.eql(RateArrayFromSelina);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "Test123456",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "yaeld@selina.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{winksUrl}}/selina/app/inventory.json?accommodation[id]=1394&agent_id=11330&checkin={{checkIn}}&checkout={{checkOut}}&include_taxes=true",
+									"host": [
+										"{{winksUrl}}"
+									],
+									"path": [
+										"selina",
+										"app",
+										"inventory.json"
+									],
+									"query": [
+										{
+											"key": "accommodation[id]",
+											"value": "1394"
+										},
+										{
+											"key": "agent_id",
+											"value": "11330"
+										},
+										{
+											"key": "checkin",
+											"value": "{{checkIn}}"
+										},
+										{
+											"key": "checkout",
+											"value": "{{checkOut}}"
+										},
+										{
+											"key": "include_taxes",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "85d6bbe6-cdde-4660-b219-a3a2d0b5f3eb",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "eb57115e-3c6d-4170-b21b-5b199a8d6fd2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "2.Check availability for invalid/expired dates",
+					"item": [
+						{
+							"name": "Get available rooms with expired dates",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "776c74e7-0b28-4033-8025-3a6f1e712430",
+										"exec": [
+											"var today = new Date(); // get today's date\r",
+											"var day = today.getDate(); // get day \r",
+											"var YYYY = today.getFullYear(); \r",
+											"\r",
+											"\r",
+											"if(day==1&& day>=28)  \r",
+											"{\r",
+											"    var MM= String(today.getMonth()).padStart(2, '0'); // get privious month\r",
+											"    if(MM===0){MM=12}\r",
+											"    var finalCheckInDate= YYYY + '-' + MM + '-' + \"27\";\r",
+											"    var finalCheckOutDate= YYYY + '-' + MM + '-' + \"28\";\r",
+											" \r",
+											"    pm.environment.set(\"InvalidCheckIn\",finalCheckInDate);\r",
+											"    pm.environment.set(\"InvalidCheckOut\", finalCheckOutDate);\r",
+											"}\r",
+											"\r",
+											"else {\r",
+											"    \r",
+											"  var randomday = String(Math.floor(Math.random() * (day-1))+1); //select random past date between 1-currentday-1.day\r",
+											"  randomday = randomday.padStart(2, '0'); \r",
+											"  var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!\r",
+											"  var finalCheckInDate= YYYY + '-' + MM + '-' + randomday;\r",
+											"  \r",
+											"  var checkOutDay = String(parseInt(randomday)+1);\r",
+											"  checkOutDay = checkOutDay.padStart(2, '0');\r",
+											"  var finalCheckOutDate = YYYY + \"-\" + MM + \"-\" + String(checkOutDay);\r",
+											"  \r",
+											"  pm.environment.set(\"InvalidCheckIn\",finalCheckInDate);\r",
+											"  pm.environment.set(\"InvalidCheckOut\", finalCheckOutDate);\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "3ae39eca-a987-4e32-9989-1e05f2104516",
+										"exec": [
+											"//pm.test(\"Status code is 500\", function () {",
+											"//    pm.response.to.have.status(500);",
+											"//});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{InvalidCheckIn}}&check_out_date={{InvalidCheckOut}}&bad=web",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{InvalidCheckIn}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{InvalidCheckOut}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										}
+									]
+								},
+								"description": "we will send the request with expired dates and check there are no available rooms result for those values"
+							},
+							"response": []
+						},
+						{
+							"name": "Get available rooms with check in date bigger than check out",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "47928bc8-230c-4888-a634-476a509d3d07",
+										"exec": [
+											"var today = new Date(); // get today's date",
+											"var DD = today.getDate(); // get day ",
+											"DD = String(DD).padStart(2, '0');",
+											"var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!",
+											"var YYYY = today.getFullYear(); ",
+											"",
+											"var checkInDate = YYYY + \"-\" + MM +\"-\"+ DD;",
+											"var checkOutMonth = String(parseInt(MM-1)).padStart(2, '0');",
+											"var checkOutDate = YYYY + \"-\" + checkOutMonth + \"-\" + DD;",
+											"",
+											"pm.environment.set(\"InvalidCheckIn\",checkInDate);",
+											"pm.environment.set(\"InvalidCheckOut\", checkOutDate);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "2ff5ca87-2ee0-4f9f-b2d7-132c9abada8b",
+										"exec": [
+											"pm.test(\"Status code is 500\", function () {",
+											"    pm.response.to.have.status(500);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{InvalidCheckIn}}&check_out_date={{InvalidCheckOut}}&bad=web",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{InvalidCheckIn}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{InvalidCheckOut}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get availabilty checkIn & check out same date",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "a58e84aa-ea9c-41c7-ab11-2d6986218569",
+										"exec": [
+											"var today = new Date(); // get today's date",
+											"var DD = today.getDate();// get day ",
+											"DD = String(DD).padStart(2,'0');",
+											"var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!",
+											"var YYYY = today.getFullYear(); ",
+											"",
+											"var checkIn = YYYY + \"-\" + MM +\"-\"+ DD;",
+											"var checkOut = YYYY + \"-\" + MM +\"-\"+ DD;",
+											"",
+											"pm.environment.set(\"InvalidCheckIn\",checkIn);",
+											"pm.environment.set(\"InvalidCheckOut\", checkOut);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "c0340034-a1b2-4a74-b5a1-5c4681f46a76",
+										"exec": [
+											"pm.test(\"Status code is 500\", function () {",
+											"    pm.response.to.have.status(500);",
+											"});",
+											"",
+											"pm.environment.unset(\"InvalidCheckIn\");",
+											"pm.environment.unset(\"InvalidCheckOut\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{InvalidCheckIn}}&check_out_date={{InvalidCheckOut}}&bad=web",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{InvalidCheckIn}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{InvalidCheckOut}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "35d69603-b6da-4c0c-935c-a1c1e07aaf7a",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "24b8c16a-c188-4ba8-a661-704079cfec2c",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "3.Check availability with promotion code",
+					"item": [
+						{
+							"name": "Get all available rooms with valid promo code",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6fe25963-e17f-4be3-bcab-e6207d5225a4",
+										"exec": [
+											"var today = new Date(); // get today's date",
+											"var DD = today.getDate(); // get day ",
+											"var MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!",
+											"var YYYY = today.getFullYear(); ",
+											"",
+											"if(DD >=12){MM= (parseInt(MM)+1).toString().padStart(2, '0')}",
+											"",
+											"var checkInDate = YYYY + \"-\" + MM +\"-\"+ \"12\";",
+											"var checkOutDate = YYYY + \"-\" + MM + \"-\" + \"13\";",
+											"",
+											"pm.environment.set(\"CheckInP\",checkInDate);",
+											"pm.environment.set(\"CheckOutP\", checkOutDate);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "17af7732-ff2e-4121-a0f0-817a367c5a22",
+										"exec": [
+											"",
+											"//check status code is 200",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"// create an array with all the booking ids.",
+											"function getAllPricesFromResponse()",
+											"{",
+											"    var Prices = [];",
+											"    var AvailabilityRates = pm.response.json();",
+											"    AvailabilityRates.forEach(function(rate) //running over all the items in json",
+											"    {",
+											"        var bookingId = rate.booking_id;",
+											"        var allRatesFromJson = Array.from(rate.all_rates);",
+											"        allRatesFromJson.forEach(function (ratePlan) //collect all the rates plan from specific ratePlan",
+											"        {",
+											"            function price(avgPrice,totalPrice, bookingId)",
+											"            {",
+											"                this.avgPrice = avgPrice; ",
+											"                this.totalPrice = totalPrice;  ",
+											"                this.bookingId = bookingId;",
+											"            }",
+											"            ",
+											"            var newPrice = new price(ratePlan.averagePrice, ratePlan.price, bookingId);",
+											"            Prices.push(newPrice);",
+											"        });",
+											"    ",
+											"    });",
+											"        return Prices;",
+											"};",
+											"",
+											"var allPrices = [];",
+											"allPrices = getAllPricesFromResponse();",
+											"",
+											"pm.environment.set(\"pricesWithPromo\", JSON.stringify(allPrices));",
+											"",
+											"//var pricesWithoutPromo =pm.environment.get(\"pricesWithoutPromo\");",
+											"",
+											"//pm.test(\"Prices updated after enter valid promo code\", function () {",
+											"//    pm.expect(pricesWithPromo.length).to.eql(pricesWithoutPromo.length);",
+											"//     pm.expect(pricesWithPromo).to.not.eql(pricesWithoutPromo);});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInP}}&check_out_date={{CheckOutP}}&bad=web&promocode=86e6010",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{CheckInP}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{CheckOutP}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										},
+										{
+											"key": "promocode",
+											"value": "86e6010"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all available rooms without promo code",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5902fbb1-bd0b-43ce-9e70-b378cdbe0e79",
+										"exec": [
+											"function price(avgPrice,totalPrice,bookingId) //define object",
+											"{",
+											"    this.avgPrice = avgPrice; ",
+											"    this.totalPrice = totalPrice;  ",
+											"    this.bookingId = bookingId;",
+											"}",
+											"            ",
+											"",
+											"function getAllPricesFromResponse()",
+											"{",
+											"    var allPrices = [];",
+											"    var AvailabilityRates = pm.response.json();",
+											"    AvailabilityRates.forEach(function(rate) //running over all the items in json",
+											"    {",
+											"        var allRatesFromJson = Array.from(rate.all_rates);",
+											"         var bookingId = rate.booking_id;",
+											"        allRatesFromJson.forEach(function (item) //collect all the rates plan from specific item",
+											"        {",
+											"",
+											"            var newPrice = new price(item.averagePrice, parseInt(item.price),bookingId);",
+											"            allPrices.push(newPrice);",
+											"        });",
+											"    ",
+											"    });",
+											"        return allPrices;",
+											"};",
+											"var allPrices = [];",
+											"allPrices = getAllPricesFromResponse();",
+											"",
+											"pm.environment.set(\"pricesWithoutPromo\", JSON.stringify(allPrices));",
+											"console.log(pm.environment.get(\"pricesWithoutPromo\"));",
+											"",
+											"var promoPrices = [];",
+											"var pricesWithPromo = JSON.parse(pm.environment.get(\"pricesWithPromo\"));",
+											"var pricesAmountWithPromo = pricesWithPromo.length;",
+											"",
+											"function GetNumOfActivePromotion()",
+											"{",
+											"var count=0;",
+											"pricesWithPromo.forEach(function (promoPrice) // for every rate with promo code search for the regular rate with the same booking id ",
+											"{",
+											"    allPrices.forEach(function(regPrice)",
+											"    {",
+											"        if(promoPrice.bookingId == regPrice.bookingId)",
+											"        {",
+											"            var precentDiscountAvg = Math.floor(((regPrice.avgPrice-promoPrice.avgPrice)/regPrice.avgPrice)*100);",
+											"            if(precentDiscountAvg===99||98){count++}",
+											"        }",
+											"    }",
+											"    )",
+											"})",
+											"return count;",
+											"}",
+											"",
+											"var activePromotionsNum = GetNumOfActivePromotion();",
+											"pm.test(\"prices for selected rates update while promo code is on\", function () {",
+											"     pm.expect(activePromotionsNum).to.eql(pricesAmountWithPromo);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "f39e83cf-f9cc-4a30-9800-dcafc3e24b5f",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInP}}&check_out_date={{CheckOutP}}&bad=web",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{CheckInP}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{CheckOutP}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										}
+									]
+								},
+								"description": "we collect the prices from this response in order to see that the prices is changing with the valid promo code"
+							},
+							"response": []
+						},
+						{
+							"name": "Get all available rooms with invalid promo code",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6d7a7c52-521b-4766-92cc-9a55df5de029",
+										"exec": [
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"var counter = 0;",
+											"var bookingObjAmount =  pm.response.json().length;",
+											"// create an array with all the booking ids.",
+											"function getMessagesNum()",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    jsonData.forEach(function(bookingObj)",
+											"    {",
+											"        if(bookingObj.invalid_promotion_code_message ==\"The promotion code you have entered is invalid. Please, verify the code and try again.\")",
+											"        {",
+											"            counter ++;",
+											"        }",
+											"    });",
+											"    return counter;",
+											"};",
+											"",
+											"var amountOfmessagesFromResponse = getMessagesNum();",
+											"",
+											"pm.test(\"Invalid promo code message apear\", function () {",
+											"     pm.expect(amountOfmessagesFromResponse).to.eql(bookingObjAmount);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInP}}&check_out_date={{CheckOutP}}&bad=web&promocode=112",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{CheckInP}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{CheckOutP}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										},
+										{
+											"key": "promocode",
+											"value": "112"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all available rooms with expired promo code",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "817a096a-cfc3-47dd-9f30-0dcd3f155ce0",
+										"exec": [
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"var counter = 0;",
+											"var bookingObjAmount =  pm.response.json().length;",
+											"// create an array with all the booking ids.",
+											"function getMessagesNum()",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    jsonData.forEach(function(bookingObj)",
+											"    {",
+											"        if(bookingObj.invalid_promotion_code_message ==\"The promotion has already expired\")",
+											"        {",
+											"            counter ++;",
+											"        }",
+											"    });",
+											"    return counter;",
+											"};",
+											"",
+											"var amountOfmessagesFromResponse = getMessagesNum();",
+											"",
+											"pm.test(\"The promotion has already expired message apear\", function () {",
+											"     pm.expect(amountOfmessagesFromResponse).to.eql(bookingObjAmount);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInP}}&check_out_date={{CheckOutP}}&bad=web&promocode=BEN18",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{CheckInP}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{CheckOutP}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										},
+										{
+											"key": "promocode",
+											"value": "BEN18"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "820d2f41-780a-4d09-a72d-32fa4a01ef01",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "bb6614e0-1027-47ac-95bf-cd06c763a509",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "4.Check availability when fully booked",
+					"item": [
+						{
+							"name": "Get all available rooms when all rooms fully booked",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "2674774e-e13c-45b7-91db-5ac509fdd16f",
+										"exec": [
+											"var date = new Date();",
+											"var day = date.getDate();",
+											"var YYYY = date.getFullYear();",
+											"",
+											"if(day<=10)",
+											"{",
+											"     var MM = String(date.getMonth() + 1).padStart(2, '0');",
+											"     var checkInDate = YYYY + \"-\" + MM + \"-\"+\"10\";",
+											"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"11\";",
+											"     console.log(checkInDate+\"-\"+checkOutDate);",
+											"    pm.environment.set(\"FbcheckIn\", checkInDate);",
+											"    pm.environment.set(\"FbcheckOut\", checkOutDate);",
+											"}",
+											"",
+											"else",
+											"{",
+											"     var MM = String(date.getMonth()+2).padStart(2, '0');",
+											"     var checkInDate = YYYY + \"-\" + MM + \"-\" +\"10\";",
+											"     var checkOutDate = YYYY + \"-\" + MM + \"-\" + \"11\";",
+											"     ",
+											"    pm.environment.set(\"FbcheckIn\", checkInDate);",
+											"    pm.environment.set(\"FbcheckOut\", checkOutDate);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "26e5b733-9550-417c-a189-e3dddf87b0bd",
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"var counter = 0;",
+											"jsonData.forEach(function (item){",
+											"    if(item.isAvailable === false)",
+											"    {",
+											"        counter ++;",
+											"    }",
+											"    }",
+											");    ",
+											"",
+											"var roomsNumber = jsonData.length;",
+											"pm.test(\"All rooms are not available\", function () {",
+											"    pm.expect(roomsNumber).to.eql(counter);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{FbcheckIn}}&check_out_date={{FbcheckOut}}&bad=web",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{FbcheckIn}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{FbcheckOut}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										}
+									]
+								},
+								"description": "dates of fully booked define every 10/mm in wink."
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "5.Check availability with COA limit",
+					"item": [
+						{
+							"name": "Get room rate from Winks standard room",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "10861296-9971-49c3-af8e-6a3b6b4ac6e1",
+										"exec": [
+											"var date = new Date();",
+											"var day = date.getDate();",
+											"var YYYY = date.getFullYear();",
+											"",
+											"if(day<=26)",
+											"{",
+											"     var MM = String(date.getMonth() + 1).padStart(2, '0');",
+											"     var checkInDate = YYYY + \"-\" + MM + \"-\"+\"26\";",
+											"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"27\";",
+											"     console.log(checkInDate+\"-\"+checkOutDate);",
+											"    pm.environment.set(\"CheckInC\", checkInDate);",
+											"    pm.environment.set(\"CheckOutC\", checkOutDate);",
+											"}",
+											"",
+											"else",
+											"{",
+											"     var MM = String(date.getMonth()+2).padStart(2, '0');",
+											"     var checkInDate = YYYY + \"-\" + MM+ \"-\" + \"26\";",
+											"     var checkOutDate = YYYY + \"-\" + MM + \"-\" + \"27\";",
+											"     ",
+											"    pm.environment.set(\"CheckInC\", checkInDate);",
+											"    pm.environment.set(\"CheckOutC\", checkOutDate);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "6b2a79c9-6002-457e-9a20-115821b1c9ca",
+										"exec": [
+											"var roomCategory=\"6107\" //standard room ",
+											"var jsonData = pm.response.json();",
+											"var jsonDataPrices = JSON.parse(JSON.stringify(jsonData.prices));",
+											"",
+											"function GetRateIdForRoomId()",
+											"{",
+											"  var rateForRoomId;   ",
+											"Object.entries(jsonDataPrices).forEach(function (roomPrices)",
+											"{",
+											"  if(roomPrices[0]==roomCategory)",
+											"  {",
+											"      var roomPrice = roomPrices[1][0];",
+											"      rateForRoomId = roomPrice.rate;",
+											"  }",
+											"})",
+											"return rateForRoomId;",
+											"}",
+											"",
+											"var rate = GetRateIdForRoomId();",
+											"pm.environment.set(\"StandardRoomRateId\", rate);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "Test123456",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "yaeld@selina.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{winksUrl}}/selina/app/inventory.json?accommodation[id]=1394&agent_id=11330&checkin={{CheckInC}}&checkout={{CheckOutC}}&include_taxes=true",
+									"host": [
+										"{{winksUrl}}"
+									],
+									"path": [
+										"selina",
+										"app",
+										"inventory.json"
+									],
+									"query": [
+										{
+											"key": "accommodation[id]",
+											"value": "1394"
+										},
+										{
+											"key": "agent_id",
+											"value": "11330"
+										},
+										{
+											"key": "checkin",
+											"value": "{{CheckInC}}"
+										},
+										{
+											"key": "checkout",
+											"value": "{{CheckOutC}}"
+										},
+										{
+											"key": "include_taxes",
+											"value": "true"
+										}
+									]
+								},
+								"description": "standard room\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get room rate from Winks 8 dorm",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "10861296-9971-49c3-af8e-6a3b6b4ac6e1",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "6b2a79c9-6002-457e-9a20-115821b1c9ca",
+										"exec": [
+											"var roomCategory=\"6104\" //8 dorm room ",
+											"var jsonData = pm.response.json();",
+											"var jsonDataPrices = JSON.parse(JSON.stringify(jsonData.prices));",
+											"",
+											"function GetRateIdForRoomId()",
+											"{",
+											"  var rateForRoomId;   ",
+											"Object.entries(jsonDataPrices).forEach(function (roomPrices)",
+											"{",
+											"  if(roomPrices[0]==roomCategory)",
+											"  {",
+											"      var roomPrice = roomPrices[1][0];",
+											"      rateForRoomId = roomPrice.rate;",
+											"  }",
+											"})",
+											"return rateForRoomId;",
+											"}",
+											"",
+											"var rate = GetRateIdForRoomId();",
+											"pm.environment.set(\"8dormRoomRateId\", rate);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "Test123456",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "yaeld@selina.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{winksUrl}}/selina/app/inventory.json?accommodation[id]=1394&agent_id=11330&checkin={{CheckInC}}&checkout={{CheckOutC}}&include_taxes=true",
+									"host": [
+										"{{winksUrl}}"
+									],
+									"path": [
+										"selina",
+										"app",
+										"inventory.json"
+									],
+									"query": [
+										{
+											"key": "accommodation[id]",
+											"value": "1394"
+										},
+										{
+											"key": "agent_id",
+											"value": "11330"
+										},
+										{
+											"key": "checkin",
+											"value": "{{CheckInC}}"
+										},
+										{
+											"key": "checkout",
+											"value": "{{CheckOutC}}"
+										},
+										{
+											"key": "include_taxes",
+											"value": "true"
+										}
+									]
+								},
+								"description": "dorm 8 room"
+							},
+							"response": []
+						},
+						{
+							"name": "Get availability when check in defined as COA",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "27916140-b766-482e-82c4-d0c8ed837fa4",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "467fe354-8771-4264-8f46-6c369c2104b1",
+										"exec": [
+											"var standardRoomRateId = pm.environment.get(\"StandardRoomRateId\"); ",
+											"var dorm8RateId = pm.environment.get(\"8dormRoomRateId\"); ",
+											"var isCOA = \"false\";",
+											"",
+											"function isCOAlimitDefined(){",
+											"var jsonData = pm.response.json();",
+											"jsonData.forEach(function (rate)",
+											"{",
+											"    if(rate.rate_booking_id ===standardRoomRateId || rate.rate_booking_id ===dorm8RateId)",
+											"    {",
+											"        if(rate.limits.coa === true){isCOA = \"true\"}",
+											"        else {isCOA = \"false\"}",
+											"    }",
+											"   ",
+											"  ",
+											"});",
+											"  return isCOA;",
+											"}",
+											"",
+											"var isCoa = isCOAlimitDefined();",
+											"pm.test(\"COA limit defined\", function () {",
+											"      pm.expect(isCoa).to.eql(\"true\");",
+											"});",
+											"",
+											"pm.environment.unset(\"CheckInC\");",
+											"pm.environment.unset(\"CheckOutC\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInC}}&check_out_date={{CheckOutC}}&bad=web",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{CheckInC}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{CheckOutC}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										},
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "config in winks for standard room and 8 beds dorm"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "6.Check availability with COD limit",
+					"item": [
+						{
+							"name": "Get room rate from Winks standard room",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "10861296-9971-49c3-af8e-6a3b6b4ac6e1",
+										"exec": [
+											"var date = new Date();",
+											"var day = date.getDate();",
+											"var YYYY = date.getFullYear();",
+											"",
+											"if(day<=25)",
+											"{",
+											"     var MM = String(date.getMonth() + 1).padStart(2, '0');",
+											"     var checkInDate = YYYY + \"-\" + MM + \"-\"+\"25\";",
+											"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"27\";",
+											"     console.log(checkInDate+\"-\"+checkOutDate);",
+											"    pm.environment.set(\"CheckInC\", checkInDate);",
+											"    pm.environment.set(\"CheckOutC\", checkOutDate);",
+											"}",
+											"",
+											"else",
+											"{",
+											"     var MM = String(date.getMonth()+2).padStart(2, '0');",
+											"     var checkInDate = YYYY + \"-\" + MM+ \"-\" + \"25\";",
+											"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"27\";",
+											"     ",
+											"    pm.environment.set(\"CheckInC\", checkInDate);",
+											"    pm.environment.set(\"CheckOutC\", checkOutDate);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "6b2a79c9-6002-457e-9a20-115821b1c9ca",
+										"exec": [
+											"var roomCategory=\"6107\" //standard room category id ",
+											"var jsonData = pm.response.json();",
+											"var jsonDataPrices = JSON.parse(JSON.stringify(jsonData.prices));",
+											"",
+											"function GetRateIdForRoomId()",
+											"{",
+											"  var rateForRoomId;   ",
+											"Object.entries(jsonDataPrices).forEach(function (roomPrices)",
+											"{",
+											"  if(roomPrices[0]==roomCategory)",
+											"  {",
+											"      var roomPrice = roomPrices[1][0];",
+											"      rateForRoomId = roomPrice.rate;",
+											"  }",
+											"})",
+											"return rateForRoomId;",
+											"}",
+											"",
+											"var rate = GetRateIdForRoomId();",
+											"pm.environment.set(\"StandardRoomRateId\", rate);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "Test123456",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "yaeld@selina.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{winksUrl}}/selina/app/inventory.json?accommodation[id]=1394&agent_id=11330&checkin={{CheckInC}}&checkout={{CheckOutC}}&include_taxes=true",
+									"host": [
+										"{{winksUrl}}"
+									],
+									"path": [
+										"selina",
+										"app",
+										"inventory.json"
+									],
+									"query": [
+										{
+											"key": "accommodation[id]",
+											"value": "1394"
+										},
+										{
+											"key": "agent_id",
+											"value": "11330"
+										},
+										{
+											"key": "checkin",
+											"value": "{{CheckInC}}"
+										},
+										{
+											"key": "checkout",
+											"value": "{{CheckOutC}}"
+										},
+										{
+											"key": "include_taxes",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get room rate from Winks 8 dorm",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "10861296-9971-49c3-af8e-6a3b6b4ac6e1",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "6b2a79c9-6002-457e-9a20-115821b1c9ca",
+										"exec": [
+											"var roomCategory=\"6104\" //8 dorm room           ",
+											"var jsonData = pm.response.json();",
+											"var jsonDataPrices = JSON.parse(JSON.stringify(jsonData.prices));",
+											"",
+											"function GetRateIdForRoomId()",
+											"{",
+											"  var rateForRoomId;   ",
+											"Object.entries(jsonDataPrices).forEach(function (roomPrices)",
+											"{",
+											"  if(roomPrices[0]==roomCategory)",
+											"  {",
+											"      var roomPrice = roomPrices[1][0];",
+											"      rateForRoomId = roomPrice.rate;",
+											"  }",
+											"})",
+											"return rateForRoomId;",
+											"}",
+											"",
+											"var rate = GetRateIdForRoomId();",
+											"pm.environment.set(\"8dormRoomRateId\", rate);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "Test123456",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "yaeld@selina.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{winksUrl}}/selina/app/inventory.json?accommodation[id]=1394&agent_id=11330&checkin={{CheckInC}}&checkout={{CheckOutC}}&include_taxes=true",
+									"host": [
+										"{{winksUrl}}"
+									],
+									"path": [
+										"selina",
+										"app",
+										"inventory.json"
+									],
+									"query": [
+										{
+											"key": "accommodation[id]",
+											"value": "1394"
+										},
+										{
+											"key": "agent_id",
+											"value": "11330"
+										},
+										{
+											"key": "checkin",
+											"value": "{{CheckInC}}"
+										},
+										{
+											"key": "checkout",
+											"value": "{{CheckOutC}}"
+										},
+										{
+											"key": "include_taxes",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get availability when check out defiend as COD",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "a2ddf989-5bba-4553-bba3-bca2dfffe49b",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "e3ea1437-ae82-4bfe-9d43-c44dff45347c",
+										"exec": [
+											"var standardRoomRateId = pm.environment.get(\"StandardRoomRateId\"); ",
+											"var dorm8RateId = pm.environment.get(\"8dormRoomRateId\"); ",
+											"var isCOD = \"false\";",
+											"",
+											"function isCODlimitDefined(){",
+											"var jsonData = pm.response.json();",
+											"jsonData.forEach(function (rate)",
+											"{",
+											"    if(rate.rate_booking_id ===standardRoomRateId || rate.rate_booking_id ===dorm8RateId)",
+											"    {",
+											"        if(rate.limits.cod == true){isCOD = \"true\"}",
+											"        else {isCOD = \"false\"}",
+											"    }",
+											"   ",
+											"  ",
+											"});",
+											"  return isCOD;",
+											"}",
+											"",
+											"var isCod = isCODlimitDefined();",
+											"pm.test(\"COD limit defined\", function () {",
+											"      pm.expect(isCod).to.eql(\"true\");",
+											"});",
+											"",
+											"pm.environment.unset(\"CheckInC\");",
+											"pm.environment.unset(\"CheckOutC\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInC}}&check_out_date={{CheckOutC}}&bad=web",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{CheckInC}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{CheckOutC}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										}
+									]
+								},
+								"description": "config standard room and 8 door in winks as COD"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "7.Check availability with minimun stay limit",
+					"item": [
+						{
+							"name": "Check in date with minimum stay",
+							"item": [
+								{
+									"name": "Get room rate from Winks",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "10861296-9971-49c3-af8e-6a3b6b4ac6e1",
+												"exec": [
+													"var date = new Date();",
+													"var day = date.getDate();",
+													"var YYYY = date.getFullYear();",
+													"",
+													"if(day<=26)",
+													"{",
+													"     var MM = String(date.getMonth() + 1).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM + \"-\"+\"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"29\";",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}",
+													"",
+													"else",
+													"{",
+													"     var MM = String(date.getMonth()+2).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM+ \"-\" + \"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM+ \"-\" + \"29\";",
+													"     ",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6b2a79c9-6002-457e-9a20-115821b1c9ca",
+												"exec": [
+													"var roomCategory=\"6115\" //private shared ",
+													"var jsonData = pm.response.json();",
+													"var jsonDataPrices = JSON.parse(JSON.stringify(jsonData.prices));",
+													"",
+													"function GetRateIdForRoomId()",
+													"{",
+													"  var rateForRoomId;   ",
+													"Object.entries(jsonDataPrices).forEach(function (roomPrices)",
+													"{",
+													"  if(roomPrices[0]==roomCategory)",
+													"  {",
+													"      var roomPrice = roomPrices[1][0];",
+													"      rateForRoomId = roomPrice.rate;",
+													"  }",
+													"})",
+													"return rateForRoomId;",
+													"}",
+													"",
+													"var rate = GetRateIdForRoomId();",
+													"pm.environment.set(\"privateSharedRoomRateId\", rate);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "Test123456",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "yaeld@selina.com",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{winksUrl}}/selina/app/inventory.json?accommodation[id]=1394&agent_id=11330&checkin={{CheckInM}}&checkout={{CheckOutM}}&include_taxes=true",
+											"host": [
+												"{{winksUrl}}"
+											],
+											"path": [
+												"selina",
+												"app",
+												"inventory.json"
+											],
+											"query": [
+												{
+													"key": "accommodation[id]",
+													"value": "1394"
+												},
+												{
+													"key": "agent_id",
+													"value": "11330"
+												},
+												{
+													"key": "checkin",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "checkout",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "include_taxes",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get availability when check in date with minimum stay",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "74e1535e-839f-4dd0-9f3b-947d02bb56a1",
+												"exec": [
+													"var date = new Date();",
+													"var day = date.getDate();",
+													"var YYYY = date.getFullYear();",
+													"",
+													"if(day<=26)",
+													"{",
+													"     var MM = String(date.getMonth() + 1).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM + \"-\"+\"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"29\";",
+													"     console.log(checkInDate+\"-\"+checkOutDate);",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}",
+													"",
+													"else",
+													"{",
+													"     var MM = String(date.getMonth()+2).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM+ \"-\" + \"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM+ \"-\" + \"29\";",
+													"     ",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "1b408863-e110-4f07-b126-dc8e4e106c38",
+												"exec": [
+													"var privateSharedRoomRateId = pm.environment.get(\"privateSharedRoomRateId\");",
+													"var isAvailable = \"false\";",
+													"",
+													"function isAvailableWhenMinimunlimitDefined(){",
+													"var jsonData = pm.response.json();",
+													"jsonData.forEach(function (rate)",
+													"{",
+													"    if(rate.rate_booking_id ===privateSharedRoomRateId)",
+													"    {",
+													"        if(rate.isAvailable == true){isAvailable = \"true\"}",
+													"        else {isAvailable = \"false\"}",
+													"    }",
+													"   ",
+													"  ",
+													"});",
+													"  return isAvailable;",
+													"}",
+													"",
+													"var isavailable = isAvailableWhenMinimunlimitDefined();",
+													"pm.test(\"There is availability when period of stay bigger than minimum limit defined\", function () {",
+													"      pm.expect(isavailable).to.eql(\"true\");",
+													"});",
+													"",
+													"pm.environment.unset(\"CheckInM\");",
+													"pm.environment.unset(\"CheckOutM\");"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInM}}&check_out_date={{CheckOutM}}&bad=web",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"booking",
+												"listings",
+												"{{locationId}}",
+												"stay"
+											],
+											"query": [
+												{
+													"key": "check_in_date",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "check_out_date",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "bad",
+													"value": "web"
+												}
+											]
+										},
+										"description": "check in date minimum stay defined in winks for private shared room. "
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Minumun stay bigger then period",
+							"item": [
+								{
+									"name": "Get room rate from Winks",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "10861296-9971-49c3-af8e-6a3b6b4ac6e1",
+												"exec": [
+													"var date = new Date();",
+													"var day = date.getDate();",
+													"var YYYY = date.getFullYear();",
+													"",
+													"if(day<=25)",
+													"{",
+													"     var MM = String(date.getMonth() + 1).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM + \"-\"+\"25\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"27\";",
+													"     console.log(checkInDate+\"-\"+checkOutDate);",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}",
+													"",
+													"else",
+													"{",
+													"     var MM = String(date.getMonth()+2).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM + \"-\" + \"25\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"27\";",
+													"     ",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6b2a79c9-6002-457e-9a20-115821b1c9ca",
+												"exec": [
+													"var roomCategory=\"6114\" //standard plus ",
+													"var jsonData = pm.response.json();",
+													"var jsonDataPrices = JSON.parse(JSON.stringify(jsonData.prices));",
+													"",
+													"function GetRateIdForRoomId()",
+													"{",
+													"  var rateForRoomId;   ",
+													"Object.entries(jsonDataPrices).forEach(function (roomPrices)",
+													"{",
+													"  if(roomPrices[0]==roomCategory)",
+													"  {",
+													"      var roomPrice = roomPrices[1][0];",
+													"      rateForRoomId = roomPrice.rate;",
+													"  }",
+													"})",
+													"return rateForRoomId;",
+													"}",
+													"",
+													"var rate = GetRateIdForRoomId();",
+													"pm.environment.set(\"StandardRoomPlus\", rate);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "Test123456",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "yaeld@selina.com",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{winksUrl}}/selina/app/inventory.json?accommodation[id]=1394&agent_id=11330&checkin={{CheckInM}}&checkout={{CheckOutM}}&include_taxes=true",
+											"host": [
+												"{{winksUrl}}"
+											],
+											"path": [
+												"selina",
+												"app",
+												"inventory.json"
+											],
+											"query": [
+												{
+													"key": "accommodation[id]",
+													"value": "1394"
+												},
+												{
+													"key": "agent_id",
+													"value": "11330"
+												},
+												{
+													"key": "checkin",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "checkout",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "include_taxes",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get availability when minumun stay bigger then period",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "b422c29f-fa9e-452f-92f7-a0f780a5f6b2",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6c5bb94c-63c1-47c1-8142-2ce0a53d560c",
+												"exec": [
+													"var standardRoomPlusRateId = pm.environment.get(\"StandardRoomPlus\");",
+													"var isNotAvailable = \"false\";",
+													"",
+													"function isNotAvailableWhenMinimunlimitDefined(){",
+													"var jsonData = pm.response.json();",
+													"jsonData.forEach(function (rate)",
+													"{",
+													"    if(rate.rate_booking_id ===standardRoomPlusRateId)",
+													"    {",
+													"        if(rate.isAvailable == false&& rate.limits.minimum_stay ==4){isNotAvailable = \"true\"}",
+													"        else {isNotAvailable = \"false\"}",
+													"    }",
+													"   ",
+													"  ",
+													"});",
+													"  return isNotAvailable;",
+													"}",
+													"",
+													"var isNotAvailable = isNotAvailableWhenMinimunlimitDefined();",
+													"pm.test(\"There is no availability when minimum limit defined bigger than period of stay\", function () {",
+													"      pm.expect(isNotAvailable).to.eql(\"true\");",
+													"});",
+													"",
+													"pm.environment.unset(\"CheckInM\");",
+													"pm.environment.unset(\"CheckOutM\");"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInM}}&check_out_date={{CheckOutM}}&bad=web",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"booking",
+												"listings",
+												"{{locationId}}",
+												"stay"
+											],
+											"query": [
+												{
+													"key": "check_in_date",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "check_out_date",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "bad",
+													"value": "web"
+												}
+											]
+										},
+										"description": "config minimun stay of 4 nights for 6 standard plus room "
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Minimum stay defined in check out date",
+							"item": [
+								{
+									"name": "Get room rate from Winks",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "10861296-9971-49c3-af8e-6a3b6b4ac6e1",
+												"exec": [
+													"var date = new Date();",
+													"var day = date.getDate();",
+													"var YYYY = date.getFullYear();",
+													"",
+													"if(day<=26)",
+													"{",
+													"     var MM = String(date.getMonth() + 1).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM + \"-\"+\"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"29\";",
+													"     console.log(checkInDate+\"-\"+checkOutDate);",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}",
+													"",
+													"else",
+													"{",
+													"     var MM = String(date.getMonth()+2).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM +\"-\"+ \"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"29\";",
+													"     ",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6b2a79c9-6002-457e-9a20-115821b1c9ca",
+												"exec": [
+													"var roomCategory=\"6105\" //6 dorm ",
+													"var jsonData = pm.response.json();",
+													"var jsonDataPrices = JSON.parse(JSON.stringify(jsonData.prices));",
+													"",
+													"function GetRateIdForRoomId()",
+													"{",
+													"  var rateForRoomId;   ",
+													"Object.entries(jsonDataPrices).forEach(function (roomPrices)",
+													"{",
+													"  if(roomPrices[0]==roomCategory)",
+													"  {",
+													"      var roomPrice = roomPrices[1][0];",
+													"      rateForRoomId = roomPrice.rate;",
+													"  }",
+													"})",
+													"return rateForRoomId;",
+													"}",
+													"",
+													"var rate = GetRateIdForRoomId();",
+													"pm.environment.set(\"6dormRateId\", rate);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "Test123456",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "yaeld@selina.com",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{winksUrl}}/selina/app/inventory.json?accommodation[id]=1394&agent_id=11330&checkin={{CheckInM}}&checkout={{CheckOutM}}&include_taxes=true",
+											"host": [
+												"{{winksUrl}}"
+											],
+											"path": [
+												"selina",
+												"app",
+												"inventory.json"
+											],
+											"query": [
+												{
+													"key": "accommodation[id]",
+													"value": "1394"
+												},
+												{
+													"key": "agent_id",
+													"value": "11330"
+												},
+												{
+													"key": "checkin",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "checkout",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "include_taxes",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get availability when minimum stay defined in check out date",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "79ae9d62-ca0d-49f9-ab18-27667bce4071",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "4a5b58e2-13b1-4595-a2fd-9cdc43d887c2",
+												"exec": [
+													"var dorm6RateId = pm.environment.get(\"6dormRateId\"); ",
+													"var isAvailable = \"false\";",
+													"",
+													"function isAvailableWhenMinimunlimitDefinedinCheckOut(){",
+													"var jsonData = pm.response.json();",
+													"jsonData.forEach(function (rate)",
+													"{",
+													"    if(rate.rate_booking_id ===dorm6RateId)",
+													"    {",
+													"        if(rate.isAvailable == true){isAvailable = \"true\"}",
+													"        else {isAvailable = \"false\"}",
+													"    }",
+													"   ",
+													"});",
+													"  return isAvailable;",
+													"}",
+													"",
+													"var isAvailable = isAvailableWhenMinimunlimitDefinedinCheckOut();",
+													"pm.test(\"There is availability when minimum limit defined in check out date\", function () {",
+													"      pm.expect(isAvailable).to.eql(\"true\");",
+													"});",
+													"",
+													"pm.environment.unset(\"CheckInM\");",
+													"pm.environment.unset(\"CheckOutM\");"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInM}}&check_out_date={{CheckOutM}}&bad=web",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"booking",
+												"listings",
+												"{{locationId}}",
+												"stay"
+											],
+											"query": [
+												{
+													"key": "check_in_date",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "check_out_date",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "bad",
+													"value": "web"
+												}
+											]
+										},
+										"description": "config in Winks minimum stay in 26/mm for 6P dorm"
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Minimun stay defined in middle date",
+							"item": [
+								{
+									"name": "Get room rate from Winks",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "10861296-9971-49c3-af8e-6a3b6b4ac6e1",
+												"exec": [
+													"var date = new Date();",
+													"var day = date.getDate();",
+													"var YYYY = date.getFullYear();",
+													"",
+													"if(day<=26)",
+													"{",
+													"     var MM = String(date.getMonth() + 1).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM + \"-\"+\"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"29\";",
+													"     console.log(checkInDate+\"-\"+checkOutDate);",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}",
+													"",
+													"else",
+													"{",
+													"     var MM = String(date.getMonth()+2).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM+ \"-\" + \"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\" + \"29\";",
+													"     ",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6b2a79c9-6002-457e-9a20-115821b1c9ca",
+												"exec": [
+													"var roomCategory=\"6108\" //suite room ",
+													"var jsonData = pm.response.json();",
+													"var jsonDataPrices = JSON.parse(JSON.stringify(jsonData.prices));",
+													"",
+													"function GetRateIdForRoomId()",
+													"{",
+													"  var rateForRoomId;   ",
+													"Object.entries(jsonDataPrices).forEach(function (roomPrices)",
+													"{",
+													"  if(roomPrices[0]==roomCategory)",
+													"  {",
+													"      console.log(roomPrices[0]);",
+													"      var roomPrice = roomPrices[1][0];",
+													"      rateForRoomId = roomPrice.rate;",
+													"  }",
+													"})",
+													"return rateForRoomId;",
+													"}",
+													"",
+													"var rate = GetRateIdForRoomId();",
+													"pm.environment.set(\"SuiteRoomRateId\", rate);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "Test123456",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "yaeld@selina.com",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{winksUrl}}/selina/app/inventory.json?accommodation[id]=1394&agent_id=11330&checkin={{CheckInM}}&checkout={{CheckOutM}}&include_taxes=true",
+											"host": [
+												"{{winksUrl}}"
+											],
+											"path": [
+												"selina",
+												"app",
+												"inventory.json"
+											],
+											"query": [
+												{
+													"key": "accommodation[id]",
+													"value": "1394"
+												},
+												{
+													"key": "agent_id",
+													"value": "11330"
+												},
+												{
+													"key": "checkin",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "checkout",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "include_taxes",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get availability when minimun stay defined in middle date",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "3b8a456a-5069-475c-afbc-4754b8f6cd55",
+												"exec": [
+													"var date = new Date();",
+													"var day = date.getDate();",
+													"var YYYY = date.getFullYear();",
+													"",
+													"if(day<=26)",
+													"{",
+													"     var MM = String(date.getMonth() + 1).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM + \"-\"+\"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"29\";",
+													"     console.log(checkInDate+\"-\"+checkOutDate);",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}",
+													"",
+													"else",
+													"{",
+													"     var MM = String(date.getMonth()+2).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM+ \"-\" + \"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\" + \"29\";",
+													"     ",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "72dc4c26-bd5d-4688-8a19-b8c45db2f124",
+												"exec": [
+													"var SuitRoomRateId =pm.environment.get(\"SuiteRoomRateId\"); ",
+													"var isNotAvailable = \"flase\";",
+													"",
+													"function isNotAvailableWhenMinimunlimitDefined(){",
+													"var jsonData = pm.response.json();",
+													"jsonData.forEach(function (rate)",
+													"{",
+													"    if(rate.rate_booking_id ===SuitRoomRateId)",
+													"    {",
+													"        if(rate.isAvailable === false&& rate.limits.minimum_stay ==4){isNotAvailable = \"true\"}",
+													"        else {isNotAvailable = \"false\"}",
+													"    }",
+													"   ",
+													"});",
+													"  return isNotAvailable;",
+													"}",
+													"",
+													"var isNotAvailable = isNotAvailableWhenMinimunlimitDefined();",
+													"pm.test(\"There is no availability when minimum limit defined bigger than period of stay\", function () {",
+													"      pm.expect(isNotAvailable).to.eql(\"true\");",
+													"});",
+													"",
+													"pm.environment.unset(\"CheckInM\");",
+													"pm.environment.unset(\"CheckOutM\");"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInM}}&check_out_date={{CheckOutM}}&bad=web",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"booking",
+												"listings",
+												"{{locationId}}",
+												"stay"
+											],
+											"query": [
+												{
+													"key": "check_in_date",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "check_out_date",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "bad",
+													"value": "web"
+												}
+											]
+										},
+										"description": "config in Winks minimum stay of 4 nights in the middle date (27/mm) for suit room"
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Minimum stay in check in & middle date",
+							"item": [
+								{
+									"name": "Get room rate from Winks",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "10861296-9971-49c3-af8e-6a3b6b4ac6e1",
+												"exec": [
+													"var date = new Date();",
+													"var day = date.getDate();",
+													"var YYYY = date.getFullYear();",
+													"",
+													"if(day<=26)",
+													"{",
+													"     var MM = String(date.getMonth() + 1).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM + \"-\"+\"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"29\";",
+													"     console.log(checkInDate+\"-\"+checkOutDate);",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}",
+													"",
+													"else",
+													"{",
+													"     var MM = String(date.getMonth()+2).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM + \"-\" +\"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\" +\"29\";",
+													"     ",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6b2a79c9-6002-457e-9a20-115821b1c9ca",
+												"exec": [
+													"var roomCategory=\"6102\" //dorm11  ",
+													"var jsonData = pm.response.json();",
+													"var jsonDataPrices = JSON.parse(JSON.stringify(jsonData.prices));",
+													"",
+													"function GetRateIdForRoomId()",
+													"{",
+													"  var rateForRoomId;   ",
+													"Object.entries(jsonDataPrices).forEach(function (roomPrices)",
+													"{",
+													"  if(roomPrices[0]==roomCategory)",
+													"  {",
+													"      var roomPrice = roomPrices[1][0];",
+													"      rateForRoomId = roomPrice.rate;",
+													"  }",
+													"})",
+													"return rateForRoomId;",
+													"}",
+													"",
+													"var rate = GetRateIdForRoomId();",
+													"pm.environment.set(\"dorm11RoomRateId\", rate);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "Test123456",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "yaeld@selina.com",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{winksUrl}}/selina/app/inventory.json?accommodation[id]=1394&agent_id=11330&checkin={{CheckInM}}&checkout={{CheckOutM}}&include_taxes=true",
+											"host": [
+												"{{winksUrl}}"
+											],
+											"path": [
+												"selina",
+												"app",
+												"inventory.json"
+											],
+											"query": [
+												{
+													"key": "accommodation[id]",
+													"value": "1394"
+												},
+												{
+													"key": "agent_id",
+													"value": "11330"
+												},
+												{
+													"key": "checkin",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "checkout",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "include_taxes",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get availability when min stay in second & third date",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "930884b3-eab4-45fa-ab42-33e82326418e",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "f5fbac0c-3479-4666-8464-4b0d7012bad8",
+												"exec": [
+													"var dorm11RoomRateId = pm.environment.get(\"dorm11RoomRateId\"); ",
+													"var isNotAvailable = \"false\";",
+													"",
+													"function isNotAvailableWhenMinimunlimitDefined(){",
+													"var jsonData = pm.response.json();",
+													"jsonData.forEach(function (rate)",
+													"{",
+													"    if(rate.rate_booking_id ===dorm11RoomRateId)",
+													"    {",
+													"        if(rate.isAvailable === false&& rate.limits.minimum_stay ==4){isNotAvailable = \"true\"}",
+													"        else {isNotAvailable = \"false\"}",
+													"    }",
+													"   ",
+													"});",
+													"  return isNotAvailable;",
+													"}",
+													"",
+													"var isNotAvailable = isNotAvailableWhenMinimunlimitDefined();",
+													"pm.test(\"There is no availability when minimum limit defined bigger than period of stay\", function () {",
+													"      pm.expect(isNotAvailable).to.eql(\"true\");",
+													"});",
+													"",
+													"pm.environment.unset(\"CheckInM\");",
+													"pm.environment.unset(\"CheckOutM\");"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInM}}&check_out_date={{CheckOutM}}&bad=web",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"booking",
+												"listings",
+												"{{locationId}}",
+												"stay"
+											],
+											"query": [
+												{
+													"key": "check_in_date",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "check_out_date",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "bad",
+													"value": "web"
+												}
+											]
+										},
+										"description": "config in Winks for deluxe bungalow in second date(5 nights) and in third date (2 nights)"
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Minimum stay in second & third date",
+							"item": [
+								{
+									"name": "Get room rate from Winks",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "10861296-9971-49c3-af8e-6a3b6b4ac6e1",
+												"exec": [
+													"var date = new Date();",
+													"var day = date.getDate();",
+													"var YYYY = date.getFullYear();",
+													"",
+													"if(day<=26)",
+													"{",
+													"     var MM = String(date.getMonth() + 1).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM + \"-\"+\"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\"+ \"29\";",
+													"     console.log(checkInDate+\"-\"+checkOutDate);",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}",
+													"",
+													"else",
+													"{",
+													"     var MM = String(date.getMonth()+2).padStart(2, '0');",
+													"     var checkInDate = YYYY + \"-\" + MM + \"-\" + \"26\";",
+													"     var checkOutDate = YYYY + \"-\" + MM + \"-\" + \"29\";",
+													"     ",
+													"    pm.environment.set(\"CheckInM\", checkInDate);",
+													"    pm.environment.set(\"CheckOutM\", checkOutDate);",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6b2a79c9-6002-457e-9a20-115821b1c9ca",
+												"exec": [
+													"var roomCategory=\"6113\" //standard bungalow ",
+													"var jsonData = pm.response.json();",
+													"var jsonDataPrices = JSON.parse(JSON.stringify(jsonData.prices));",
+													"",
+													"function GetRateIdForRoomId()",
+													"{",
+													"  var rateForRoomId;   ",
+													"Object.entries(jsonDataPrices).forEach(function (roomPrices)",
+													"{",
+													"  if(roomPrices[0]==roomCategory)",
+													"  {",
+													"      var roomPrice = roomPrices[1][0];",
+													"      rateForRoomId = roomPrice.rate;",
+													"  }",
+													"})",
+													"return rateForRoomId;",
+													"}",
+													"",
+													"var rate = GetRateIdForRoomId();",
+													"pm.environment.set(\"standardBongalowRateId\", rate);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "Test123456",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "yaeld@selina.com",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{winksUrl}}/selina/app/inventory.json?accommodation[id]=1394&agent_id=11330&checkin={{CheckInM}}&checkout={{CheckOutM}}&include_taxes=true",
+											"host": [
+												"{{winksUrl}}"
+											],
+											"path": [
+												"selina",
+												"app",
+												"inventory.json"
+											],
+											"query": [
+												{
+													"key": "accommodation[id]",
+													"value": "1394"
+												},
+												{
+													"key": "agent_id",
+													"value": "11330"
+												},
+												{
+													"key": "checkin",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "checkout",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "include_taxes",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get availability when minimum stay in check in & middle date",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "1e376eb1-28f7-4291-9af3-79dcf68cf010",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "ebf85932-dd89-442a-872f-14184b47692b",
+												"exec": [
+													"var standardBondalowRateId = pm.environment.get(\"standardBongalowRateId\");",
+													"var isNotAvailable = \"false\";",
+													"",
+													"function isNotAvailableWhenMinimunlimitDefined(){",
+													"var jsonData = pm.response.json();",
+													"jsonData.forEach(function (rate)",
+													"{",
+													"    if(rate.rate_booking_id===standardBondalowRateId)",
+													"    {",
+													"        if(rate.isAvailable === false&& rate.limits.minimum_stay ==5){isNotAvailable = \"true\"}",
+													"        else {isNotAvailable = \"false\"}",
+													"    }",
+													"   ",
+													"});",
+													"  return isNotAvailable;",
+													"}",
+													"",
+													"var isNotAvailable = isNotAvailableWhenMinimunlimitDefined();",
+													"pm.test(\"There is no availability when minimum limit defined bigger than period of stay\", function () {",
+													"      pm.expect(isNotAvailable).to.eql(\"true\");",
+													"});",
+													"",
+													"pm.environment.unset(\"CheckInM\");",
+													"pm.environment.unset(\"CheckOutM\");"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInM}}&check_out_date={{CheckOutM}}&bad=web",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"booking",
+												"listings",
+												"{{locationId}}",
+												"stay"
+											],
+											"query": [
+												{
+													"key": "check_in_date",
+													"value": "{{CheckInM}}"
+												},
+												{
+													"key": "check_out_date",
+													"value": "{{CheckOutM}}"
+												},
+												{
+													"key": "bad",
+													"value": "web"
+												}
+											]
+										},
+										"description": "config in Winks for 11 dorm- 26/mm check in date(2 nights)\nand 27/mm (4 nights)"
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "Booking process",
+			"item": [
+				{
+					"name": "1.basic booking for available rate",
+					"item": [
+						{
+							"name": "Get all availabilty rates per booking",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6fe25963-e17f-4be3-bcab-e6207d5225a4",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "17af7732-ff2e-4121-a0f0-817a367c5a22",
+										"exec": [
+											"",
+											"//check status code is 200",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"// create an array with all the available rates ids.",
+											"function getAllAvailableRatesFromResponse()",
+											"{",
+											"    var allAvailableRates = [];",
+											"    var jsonData = pm.response.json();",
+											"    jsonData.forEach(function(data) //running over all the items in json",
+											"    {",
+											"        var isAvailable = data.isAvailable;",
+											"        if(isAvailable ===true)",
+											"        {",
+											"            var rate = data.rate_booking_id;",
+											"            allAvailableRates.push(rate);",
+											"        }    ",
+											"    });",
+											"        return allAvailableRates;",
+											"}",
+											"",
+											"",
+											"var allAvailableRates = [];",
+											"allAvailableRates = getAllAvailableRatesFromResponse();",
+											"",
+											"pm.environment.set(\"AvailableRateFromSelina\", JSON.stringify(allAvailableRates));",
+											"console.log(pm.environment.get(\"AvailableRateFromSelina\"));",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{checkIn}}&check_out_date={{checkOut}}&bad=web",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"listings",
+										"{{locationId}}",
+										"stay"
+									],
+									"query": [
+										{
+											"key": "check_in_date",
+											"value": "{{checkIn}}"
+										},
+										{
+											"key": "check_out_date",
+											"value": "{{checkOut}}"
+										},
+										{
+											"key": "bad",
+											"value": "web"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create booking for available room",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "a5ec71f6-015d-4a82-adea-d763c8e2091a",
+										"exec": [
+											"var allRates = pm.environment.get(\"AvailableRateFromSelina\");",
+											"console.log(allRates);",
+											"var ratesJson = JSON.parse(allRates);",
+											"var randomIndex =  Math.floor((Math.random() * ratesJson.length));",
+											"var rateid = ratesJson[randomIndex];",
+											"var t = pm.environment.get(\"token\");",
+											"var auth = \"Token \"+t;",
+											"console.log(\"the Token that defined is: \" + auth);",
+											"",
+											"pm.environment.set(\"auth\", auth);",
+											"pm.environment.set(\"RateId\", rateid);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "d3852000-8dc4-46e9-b41a-ad3e5da5fbd3",
+										"exec": [
+											"pm.test(\"Booking is successful when booking 1 available room\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.result.successful).to.eql(1);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{auth}}"
+									},
+									{
+										"key": "bad",
+										"type": "text",
+										"value": "web"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"credit_card\": {\n        \"full_name\": \"Test Test\",\n        \"number\": \"4111111111111111\",\n        \"exp_month\": 2,\n        \"exp_year\": 2020,\n        \"security_code\": \"597\"\n    },\n    \"listing_id\": \"{{locationId}}\",\n    \"user_id\": \"{{userId}}\",\n    \"stay\": {\n        \"rooms\": [\n            {\n                \"rate_booking_id\": \"{{RateId}}\",\n                \"quantity\": 1\n            }\n        ],\n        \"check_in_date\": \"{{checkIn}}\",\n        \"check_out_date\": \"{{checkOut}}\"\n    },\n    \"customer_info\": {\n        \"id\": \"{{userId}}\"\n    },\n    \"customer_email\": \"{{email}}\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/book",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"book"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Book 2 different rooms in the same reservation",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "a5ec71f6-015d-4a82-adea-d763c8e2091a",
+										"exec": [
+											"var allRates = pm.environment.get(\"AvailableRateFromSelina\");",
+											"var ratesJson = JSON.parse(allRates);    ",
+											"var count = Object.keys(ratesJson).length; ",
+											"console.log(count);",
+											"",
+											"if(count => 2)",
+											"{",
+											"var rateid1 = ratesJson[0];",
+											"var rateid2 = ratesJson[1];",
+											"}",
+											"else if (count === 1)",
+											"{",
+											"    console.log(\"only 1 room is available\");",
+											"    postman.setNextRequest('Create a booking for exist room in expired dates');",
+											"}",
+											"",
+											"else if(count === 0)",
+											"{",
+											"    console.log(\"no room is available\");",
+											"    postman.setNextRequest('Create a booking for exist room in expired dates');",
+											"}",
+											"",
+											"pm.environment.set(\"RateId\", rateid1);",
+											"pm.environment.set(\"RateId2\", rateid2);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "d3852000-8dc4-46e9-b41a-ad3e5da5fbd3",
+										"exec": [
+											"pm.test(\"Booking is successful when booking 2 different rooms in same reservation\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.result.successful).to.eql(1);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{auth}}"
+									},
+									{
+										"key": "bad",
+										"type": "text",
+										"value": "web"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "{{lang}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"credit_card\": {\n        \"full_name\": \"Test Test\",\n        \"number\": \"4111111111111111\",\n        \"exp_month\": 2,\n        \"exp_year\": 2020,\n        \"security_code\": \"597\"\n    },\n    \"listing_id\": \"{{locationId}}\",\n    \"user_id\": \"{{userId}}\",\n    \"stay\": {\n        \"rooms\": [\n            {\n                \"rate_booking_id\": \"{{RateId}}\",\n                \"quantity\": 1\n            },\n            {\n            \t\"rate_booking_id\": \"{{RateId2}}\",\n            \t\"quantity\":1\n            }\n        ],\n        \"check_in_date\": \"{{checkIn}}\",\n        \"check_out_date\": \"{{checkOut}}\"\n    },\n    \"customer_info\": {\n        \"id\": \"{{userId}}\"\n    },\n    \"customer_email\": \"{{email}}\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/book",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"book"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "2.negative test cases for booking",
+					"item": [
+						{
+							"name": "Create a booking for exist room in expired dates",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b4df3294-3330-4665-96f8-8ec92c2a7efc",
+										"exec": [
+											"pm.test(\"Booking is not successful\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.result.successful).to.eql(0);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "bad",
+										"value": "web",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{auth}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "{{lang}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"credit_card\": {\n        \"full_name\": \"Test Test\",\n        \"number\": \"4111111111111111\",\n        \"exp_month\": 2,\n        \"exp_year\": 2020,\n        \"security_code\": \"597\"\n    },\n    \"listing_id\": \"{{locationId}}\",\n    \"user_id\": \"{{userId}}\",\n    \"stay\": {\n        \"rooms\": [\n            {\n                \"rate_booking_id\": \"{{RateId}}\",\n                \"quantity\": 1\n            }\n        ],\n        \"check_in_date\": \"{{InvalidCheckIn}}\",\n        \"check_out_date\": \"{{InvalidCheckOut}}\"\n    },\n    \"customer_info\": {\n        \"id\": \"{{userId}}\"\n    },\n    \"customer_email\": \"{{email}}\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/book",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"book"
+									]
+								},
+								"description": "check in & check out are expired"
+							},
+							"response": []
+						},
+						{
+							"name": "book available room with wrong credit card number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "61d9b878-a00e-4754-b1ee-c45ff3b8d3ea",
+										"exec": [
+											"//pm.test(\"Booking is not successful with invalid credit card\", function () {",
+											"//    var jsonData = pm.response.json();",
+											"//    pm.expect(jsonData.result.successful).to.eql(0);",
+											"//}); no validation for that in the code. "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "bad",
+										"value": "web",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{auth}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "{{lang}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"credit_card\": {\n        \"full_name\": \"Test Test\",\n        \"number\": \"41111\",\n        \"exp_month\": 2,\n        \"exp_year\": 2020,\n        \"security_code\": \"597\"\n    },\n    \"listing_id\": \"{{locationId}}\",\n    \"user_id\": \"{{userId}}\",\n    \"stay\": {\n        \"rooms\": [\n            {\n                \"rate_booking_id\": \"{{RateId}}\",\n                \"quantity\": 1\n            }\n        ],\n        \"check_in_date\": \"{{checkIn}}\",\n        \"check_out_date\": \"{{checkOut}}\"\n    },\n    \"customer_info\": {\n        \"id\": \"{{userId}}\"\n    },\n    \"customer_email\": \"{{email}}\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/book",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"book"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "book available room with invalid email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1d95d6ae-d18d-452f-b8ac-d3bfa19861f5",
+										"exec": [
+											"//pm.test(\"Booking is not successful with invalid mail\", function () {",
+											"//  var jsonData = pm.response.json();",
+											"//    pm.expect(jsonData.result.successful).to.eql(0);",
+											"//}); ignore for now. no validation for that exist in the code"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "bad",
+										"value": "web",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{auth}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "{{lang}}",
+										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"credit_card\": {\n        \"full_name\": \"Test Test\",\n        \"number\": \"4111111111111111\",\n        \"exp_month\": 2,\n        \"exp_year\": 2020,\n        \"security_code\": \"597\"\n    },\n    \"listing_id\": \"{{locationId}}\",\n    \"user_id\": \"{{userId}}\",\n    \"stay\": {\n        \"rooms\": [\n            {\n                \"rate_booking_id\": \"{{RateId}}\",\n                \"quantity\": 1\n            }\n        ],\n        \"check_in_date\": \"{{checkIn}}\",\n        \"check_out_date\": \"{{checkOut}}\"\n    },\n    \"customer_info\": {\n        \"id\": \"{{userId}}\"\n    },\n    \"customer_email\": \"1222\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/book",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"book"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "book a room for invalid rate ID",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "58243b0c-b827-4107-b859-905b3a853879",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "b6350d5d-0f1d-42ee-a21e-5446d3ef2ce2",
+										"exec": [
+											"pm.test(\"Booking is not successful with invalid rate ID\", function () {",
+											"     var jsonData = pm.response.json();",
+											"  pm.expect(jsonData.result.successful).to.eql(0); ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"credit_card\": {\n        \"full_name\": \"Test Test\",\n        \"number\": \"4111111111111111\",\n        \"exp_month\": 2,\n        \"exp_year\": 2020,\n        \"security_code\": \"597\"\n    },\n    \"listing_id\": \"{{locationId}}\",\n    \"user_id\": \"{{userId}}\",\n    \"stay\": {\n        \"rooms\": [\n            {\n                \"rate_booking_id\": \"123\",\n                \"quantity\": 1\n            }\n        ],\n        \"check_in_date\": \"{{checkIn}}\",\n        \"check_out_date\": \"{{checkOut}}\"\n    },\n    \"customer_info\": {\n        \"id\": \"{{userId}}\"\n    },\n    \"customer_email\": \"{{email}}\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/book",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"book"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "book a room with invalid location ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "be88fffe-caa7-4ff6-9e6b-394b054f18b6",
+										"exec": [
+											"pm.test(\"Booking is not successful with invalid location ID\", function () {",
+											"    pm.response.to.have.status(500);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"credit_card\": {\n        \"full_name\": \"Test Test\",\n        \"number\": \"4111111111111111\",\n        \"exp_month\": 2,\n        \"exp_year\": 2020,\n        \"security_code\": \"597\"\n    },\n    \"listing_id\": \"123456\",\n    \"user_id\": \"{{userId}}\",\n    \"stay\": {\n        \"rooms\": [\n            {\n                \"rate_booking_id\": \"{{RateId}}\",\n                \"quantity\": 1\n            }\n        ],\n        \"check_in_date\": \"{{checkIn}}\",\n        \"check_out_date\": \"{{checkOut}}\"\n    },\n    \"customer_info\": {\n        \"id\": \"{{userId}}\"\n    },\n    \"customer_email\": \"{{email}}\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/book",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"book"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "book negative quantity of rooms ",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8ce89777-e721-4135-a9c6-5769958041e4",
+										"exec": [
+											"pm.test(\"Booking is not successful with negative quantity of rooms\", function () {",
+											"     var jsonData = pm.response.json();",
+											"  pm.expect(jsonData.result.successful).to.eql(0); ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"credit_card\": {\n        \"full_name\": \"Test Test\",\n        \"number\": \"4111111111111111\",\n        \"exp_month\": 2,\n        \"exp_year\": 2020,\n        \"security_code\": \"597\"\n    },\n    \"listing_id\": \"{{locationId}}\",\n    \"user_id\": \"{{userId}}\",\n    \"stay\": {\n        \"rooms\": [\n            {\n                \"rate_booking_id\": \"{{RateId}}\",\n                \"quantity\": -1\n            }\n        ],\n        \"check_in_date\": \"{{checkIn}}\",\n        \"check_out_date\": \"{{checkOut}}\"\n    },\n    \"customer_info\": {\n        \"id\": \"{{userId}}\"\n    },\n    \"customer_email\": \"{{email}}\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/booking/book",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"booking",
+										"book"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}
