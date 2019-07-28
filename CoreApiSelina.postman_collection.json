@@ -874,7 +874,7 @@
 											"    var jsonData = pm.response.json();",
 											"    jsonData.forEach(function(location)",
 											"    {",
-											"        if(location.name===\"RED FROG\")",
+											"        if(location.name===\"Bocas del Toro, Red Frog\")",
 											"        {",
 											"            console.log(\"Location id of RED FROG: \" + location.id);",
 											"            pm.environment.set(\"locationId\", location.id);",
