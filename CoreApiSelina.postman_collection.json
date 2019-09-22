@@ -1076,12 +1076,12 @@
 									"basic": [
 										{
 											"key": "password",
-											"value": "Test123456",
+											"value": "S3linaR0ckstar!",
 											"type": "string"
 										},
 										{
 											"key": "username",
-											"value": "yaeld@selina.com",
+											"value": "qatester",
 											"type": "string"
 										}
 									]
@@ -1497,7 +1497,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInP}}&check_out_date={{CheckOutP}}&bad=web&promocode=86e6010",
+									"raw": "{{baseUrl}}/api/booking/listings/{{locationId}}/stay?check_in_date={{CheckInP}}&check_out_date={{CheckOutP}}&bad=app&promocode=86e6010",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1519,7 +1519,7 @@
 										},
 										{
 											"key": "bad",
-											"value": "web"
+											"value": "app"
 										},
 										{
 											"key": "promocode",
@@ -1997,12 +1997,12 @@
 									"basic": [
 										{
 											"key": "password",
-											"value": "Test123456",
+											"value": "S3linaR0ckstar!",
 											"type": "string"
 										},
 										{
 											"key": "username",
-											"value": "yaeld@selina.com",
+											"value": "qatester",
 											"type": "string"
 										}
 									]
@@ -2096,12 +2096,12 @@
 									"basic": [
 										{
 											"key": "password",
-											"value": "Test123456",
+											"value": "S3linaR0ckstar!",
 											"type": "string"
 										},
 										{
 											"key": "username",
-											"value": "yaeld@selina.com",
+											"value": "qatester",
 											"type": "string"
 										}
 									]
@@ -2309,13 +2309,13 @@
 									"type": "basic",
 									"basic": [
 										{
-											"key": "password",
-											"value": "Test123456",
+											"key": "username",
+											"value": "qatester",
 											"type": "string"
 										},
 										{
-											"key": "username",
-											"value": "yaeld@selina.com",
+											"key": "password",
+											"value": "S3linaR0ckstar!",
 											"type": "string"
 										}
 									]
@@ -2406,13 +2406,13 @@
 									"type": "basic",
 									"basic": [
 										{
-											"key": "password",
-											"value": "Test123456",
+											"key": "username",
+											"value": "qatester",
 											"type": "string"
 										},
 										{
-											"key": "username",
-											"value": "yaeld@selina.com",
+											"key": "password",
+											"value": "S3linaR0ckstar!",
 											"type": "string"
 										}
 									]
@@ -2617,12 +2617,12 @@
 											"basic": [
 												{
 													"key": "password",
-													"value": "Test123456",
+													"value": "S3linaR0ckstar!",
 													"type": "string"
 												},
 												{
 													"key": "username",
-													"value": "yaeld@selina.com",
+													"value": "qatester",
 													"type": "string"
 												}
 											]
@@ -2845,13 +2845,13 @@
 											"type": "basic",
 											"basic": [
 												{
-													"key": "password",
-													"value": "Test123456",
+													"key": "username",
+													"value": "qatester",
 													"type": "string"
 												},
 												{
-													"key": "username",
-													"value": "yaeld@selina.com",
+													"key": "password",
+													"value": "S3linaR0ckstar!",
 													"type": "string"
 												}
 											]
@@ -3052,12 +3052,12 @@
 											"basic": [
 												{
 													"key": "password",
-													"value": "Test123456",
+													"value": "S3linaR0ckstar!",
 													"type": "string"
 												},
 												{
 													"key": "username",
-													"value": "yaeld@selina.com",
+													"value": "qatester",
 													"type": "string"
 												}
 											]
@@ -3258,13 +3258,13 @@
 											"type": "basic",
 											"basic": [
 												{
-													"key": "password",
-													"value": "Test123456",
+													"key": "username",
+													"value": "qatester",
 													"type": "string"
 												},
 												{
-													"key": "username",
-													"value": "yaeld@selina.com",
+													"key": "password",
+													"value": "S3linaR0ckstar!",
 													"type": "string"
 												}
 											]
@@ -3488,12 +3488,12 @@
 											"basic": [
 												{
 													"key": "password",
-													"value": "Test123456",
+													"value": "S3linaR0ckstar!",
 													"type": "string"
 												},
 												{
 													"key": "username",
-													"value": "yaeld@selina.com",
+													"value": "qatester",
 													"type": "string"
 												}
 											]
@@ -3694,12 +3694,12 @@
 											"basic": [
 												{
 													"key": "password",
-													"value": "Test123456",
+													"value": "S3linaR0ckstar!",
 													"type": "string"
 												},
 												{
 													"key": "username",
-													"value": "yaeld@selina.com",
+													"value": "qatester",
 													"type": "string"
 												}
 											]
